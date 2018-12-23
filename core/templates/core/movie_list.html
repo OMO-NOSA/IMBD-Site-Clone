@@ -1,27 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Movie</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
+{% extends 'base.html' %}
+
+{% block title %}
+All The movies
+{% endblock %}
+
+{% block main %}
     <ul>
         {% for movie in object_list %}
-            <li>{{ movie }}</li>
-        {% empty %}
-        <li>
-            No movies yet.
-        </li>
+            <li>
+                <a href="{% url 'core:MovieDetail' pk=movie.id %}">
+                {{ movie }}
+                </a>
+            </li>
+        
         {% endfor %}
     </ul>
-    <p>
-        Using https?
-        {{ request.is_secure|yesno }}
-    </p>
-<body>
-    
-</body>
-</html>
+    {% if is_paginated %}
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a
+                        href="{% url 'core:MovieList' %}?page=1"
+                        class="page-link"> First </a>
+                </li>
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="{% url 'core:MovieList' %}?page={{ page_obj.previous_page_number }}">
+                            {{ page_obj.previous_page_number }}
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="page-item active">
+                    <a class="page-link" href="{% url 'core:MovieList' %}?page={{ page_obj.number }}">
+                        {{ page_obj.number }}
+                    </a>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'core:MovieList' %}?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number}}</a>
+                    </li>
+                {% endif %}
+                <li class="page-item">
+                    <a class="page-link" href="{% url 'core:MovieList' %}?page=last">Last</a>
+                </li>
+
+            </ul>
+        </nav>
+
+    {% endif %}
+{% endblock %}
