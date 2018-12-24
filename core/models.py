@@ -1,7 +1,19 @@
 from django.db import models
 
 # Create your models here.
+#MovieManager Class to enable prefetching of data from the DataBase.
+class MovieManager(models.Manager):
+    def all_with_related_persons(self):
+        qs = self.get_queryset()
+        qs = qs.select_related(
+            'director'
+        )
+        qs = qs.prefetch_related(
+            'writers',
+            'actors'
+        )
 
+        return qs
 class Movie(models.Model):
     NOT_RATED = 0
     RATED_G = 1
@@ -50,6 +62,8 @@ class Movie(models.Model):
         related_name='acting_credits',
         blank=True
     )
+# Assigning an instance of MovieManager
+    objects = MovieManager()
     class Meta:
         ordering = ('-year', 'title')
 
@@ -57,14 +71,23 @@ class Movie(models.Model):
         return '{} ({})'.format(
             self.title, self.year
         )
-
+# PersonManager to enable prefetch and avoid quering the Database whenever data is needed.
+class PersonManager(models.Manager):
+    def all_with_prefetch_movies(self):
+        qs = self.get_queryset()
+        return qs.prefetch_related(
+            'directed',
+            'writing_credits',
+            'role_set__movie'
+        )
 
 class Person(models.Model):
     first_name = models.CharField(max_length=140)
     last_name = models.CharField(max_length = 140)
     born = models.DateField()
     died = models.DateField(null=True, blank=True)
-
+#Calling an instance of the PersonManager and assigning it to objects
+    objects = PersonManager()
     class Meta:
         ordering= ('last_name', 'first_name')
 
@@ -97,3 +120,5 @@ class Role(models.Model):
                             'name'
                             )
 
+
+    
