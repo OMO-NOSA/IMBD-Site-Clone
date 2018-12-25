@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Register For IMBD Clone</h1>
+    <form method="psot">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button 
+            type="submit"
+            class="btn btn-primary">
+        Register
+        </button>
+    </form>
+{% endblock %}
