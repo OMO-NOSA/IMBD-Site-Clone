@@ -147,3 +147,4 @@ class Vote(models.Model):
     )
     class Meta:
         unique_together = ('user', 'movie')
+        
