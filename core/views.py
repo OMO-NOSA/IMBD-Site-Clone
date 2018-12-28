@@ -74,3 +74,36 @@ class CreateVote(LoginRequiredMixin, CreateView):
         return redirect(
             to=movie_detail_url
         )
+
+class UpdateVote(LoginRequiredMixin, UpdateView):
+    form_class = VoteForm
+    queryset = Vote.objects.all()
+
+    def get_object(self, queryset=None):
+        vote = super().get_object(queryset)
+        user = self.request.user
+        if vote.user != user:
+            raise PermissionDenied(
+                'cannot change another',
+                'users vote'
+            )
+
+        return vote
+
+    def get_success_url(self):
+        movie_id = self.object.movie.id
+        return reverse(
+            'core:MovieDetail',
+            kwargs= {'pk': movie_id}
+        )
+    
+
+    def render_to_response(self, context, **response_kwargs):
+        movie_id = context['object'].id
+        movie_detail_url = reverse(
+            'core:MovieDetail',
+            kwargs={'pk': movie_id}
+        )
+        return redirect(
+            to=movie_detail_url
+        )
