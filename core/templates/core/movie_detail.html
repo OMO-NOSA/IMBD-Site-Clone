@@ -19,7 +19,9 @@
         {{ object.get_rating_display }}
     </span>
 </div>
-
+<div>
+    <h2> score: {{ object.score | default_if_none:"TBD"}}</h2>
+</div>
 <div>
     {% if vote_form %}
     <form method="post" action="{{ vote_form_url }}">
