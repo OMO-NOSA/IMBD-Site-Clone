@@ -11,9 +11,8 @@ class MovieListView(ListView):
     model = Movie
     
 class MovieDetailView(DetailView):
-    queryset = (
-        Movie.objects.all_with_related_persons()
-    )
+    queryset = Movie.objects.all_with_related_persons_and_score()
+
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
