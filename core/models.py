@@ -17,7 +17,7 @@ class MovieManager(models.Manager):
 
     def all_with_related_persons_and_score(self):
         qs = self.all_with_related_persons()
-        qs = qs.annotate(score=sum('vote__value'))
+        qs = qs.annotate(score=sum('vote__value')) #Bug to be fixed.
         return qs
 class Movie(models.Model):
     NOT_RATED = 0
