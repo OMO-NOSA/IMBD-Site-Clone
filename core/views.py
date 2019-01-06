@@ -43,6 +43,11 @@ class MovieDetailView(DetailView):
             ctx['vote_form_url'] = \
                 vote_form_url
         return ctx
+    #Method for rendering images from database
+    def movie_image_form(self):
+        if self.request.user.is_authenticated:
+            return MovieImageForm()
+        return None
 class PersonDetailView(DetailView):
     queryset = Person.objects.all_with_prefetch_movies()
 
