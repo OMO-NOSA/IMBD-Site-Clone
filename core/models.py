@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 from django.conf import settings
 from uuid import uuid4
 
@@ -18,7 +19,7 @@ class MovieManager(models.Manager):
 
     def all_with_related_persons_and_score(self):
         qs = self.all_with_related_persons()
-        qs = qs.annotate(score=sum('vote__value')) #Bug to be fixed.
+        qs = qs.annotate(score=Count('vote__value')) #Bug to be fixed.
         return qs
 class Movie(models.Model):
     NOT_RATED = 0
@@ -182,4 +183,3 @@ class MovieImage(models.Model):
     uploaded = models.DateTimeField(auto_now_add=True)
     movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    

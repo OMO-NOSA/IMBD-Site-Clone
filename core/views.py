@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from core.models import Movie, Person, Role , Vote
 from django.urls import reverse
 from django.views.generic import (DetailView,
-                                             ListView, CreateView)
+                                             ListView, CreateView, UpdateView)
 from core.forms import VoteForm
 # Create your views here
 
