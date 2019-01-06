@@ -4,7 +4,7 @@ from core.models import Movie, Person, Role , Vote
 from django.urls import reverse
 from django.views.generic import (DetailView,
                                              ListView, CreateView, UpdateView)
-from core.forms import VoteForm
+from core.forms import VoteForm, MovieImageForm
 # Create your views here
 
 class MovieListView(ListView):
@@ -111,3 +111,28 @@ class UpdateVote(LoginRequiredMixin, UpdateView):
         return redirect(
             to=movie_detail_url
         )
+
+class MovieImageUpload(LoginRequiredMixin, CreateView):
+    form_class = MovieImageForm
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['user'] = self.request.user.id
+        initial['movie'] = self.kwargs['movie_id']
+        return initial
+
+    def render_to_response(self,context, **response_kwargs):
+        movie_id = self.kwargs['movie_id']
+        movie_detail_url = reverse('core:MovieDetail', kwargs={'pk':movie_id})
+        return redirect(
+            to=movie_detail_url
+        )
+
+    def get_success_url(self):
+        movie_id = self.kwargs['movie_id']
+        movie_detail_url = reverse(
+            'core:MovieDetail',
+            kwargs = {'pk': movie_id}
+        )
+        return movie_detail_url
+
