@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Count
+from django.db.models.aggregates import ( Sum)
 from django.conf import settings
 from uuid import uuid4
 
@@ -19,7 +19,17 @@ class MovieManager(models.Manager):
 
     def all_with_related_persons_and_score(self):
         qs = self.all_with_related_persons()
-        qs = qs.annotate(score=Count('vote__value')) #Bug to be fixed.
+        qs = qs.annotate(score=Sum('vote__value')) #Bug to be fixed.
+        return qs
+
+    def top_movies(self, limit=0):
+        qs = self.get_queryset()
+        qs = qs.annotate(
+            vote_sum=Sum('vote__value')
+        )
+        qs = qs.exclude(vote_sum=None)
+        qs = qs.order_by('-vote_sum')
+        qs = qs[:limit]
         return qs
 class Movie(models.Model):
     NOT_RATED = 0
