@@ -110,6 +110,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CACHES = {
+    'default':{
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'default-locmemcache',
+        'TIMEOUT': 5, * 5 seconds
+    }
+}
+
+CSRF_USE_SESSIONS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
