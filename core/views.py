@@ -2,13 +2,15 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from core.models import Movie, Person, Role , Vote
 from django.urls import reverse
+from core.mixins import CachePageVaryOnCookieMixin
 from django.views.generic import (DetailView,
                                              ListView, CreateView, UpdateView)
 from core.forms import VoteForm, MovieImageForm
 # Create your views here
 
-class MovieListView(ListView):
+class MovieListView(CachePageVaryOnCookieMixin,ListView):
     model = Movie
+    paginate_by = 10
     
 class MovieDetailView(DetailView):
     queryset = Movie.objects.all_with_related_persons_and_score()
