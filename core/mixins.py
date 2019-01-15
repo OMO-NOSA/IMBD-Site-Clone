@@ -2,6 +2,7 @@ from django.core.cache import caches
 from django.views.decorators.cache import(
     cache_page
 )
+from django.views.decorators.vary import vary_on_cookie
 
 class CachePageVaryOnCookieMixin:
     """

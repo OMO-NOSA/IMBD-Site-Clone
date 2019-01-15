@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ms^k*4knzg@_-@im-n#&h1y@inoy-qk-m%kuk6=zmv-35(7m0u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -114,7 +114,7 @@ CACHES = {
     'default':{
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'default-locmemcache',
-        'TIMEOUT': 5, * 5 seconds
+        'TIMEOUT': 5, # 5 seconds
     }
 }
 
