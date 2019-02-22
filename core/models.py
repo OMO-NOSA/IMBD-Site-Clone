@@ -19,7 +19,7 @@ class MovieManager(models.Manager):
 
     def all_with_related_persons_and_score(self):
         qs = self.all_with_related_persons()
-        qs = qs.annotate(score=Sum('vote__value')) #Bug to be fixed.
+        qs = qs.annotate(score=Sum('vote__value')) 
         return qs
 
     def top_movies(self, limit=0):

@@ -119,7 +119,7 @@ __pycache__/
 *.py[cod]
 .env
 venv/
-
+/media_root/
 
 # SQLite database files
 
